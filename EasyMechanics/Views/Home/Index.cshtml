@@ -1,0 +1,13 @@
+﻿@model SpecialPage
+@{
+    ViewBag.Title = Model.SEOTitle;
+}
+
+
+<div id="about" class="page-section">
+    <div class="container">
+        
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+

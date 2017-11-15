@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/Content/css/fontAwesome.css">
+    <link rel="stylesheet" href="/Content/css/hero-slider.css">
+    <link rel="stylesheet" href="/Content/css/tooplate-style.css">
+    <link href="~/Content/slick-1.8.0/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/slick-1.8.0/slick/slick-theme.css" rel="stylesheet" />    
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+
+    <script src="/Content/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+</head>
+<body style="overflow-x:hidden;">
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="navbar-brand scroll-top" >
+                        <h2>
+                        @Html.Raw(Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "SiteMane")).Values)
+                        </h2>
+                    </a>
+                </div>
+                <!--/.navbar-header-->
+                <div id="main-nav" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/" class="scroll-top">@Resources.Resource.Menu_Main</a></li>
+                        <li>
+                            <a href="/Services/" class="scroll-link" data-toggle="dropdown" data-id="portfolio">@Resources.Resource.Menu_Services <span class="caret"></span></a>
+                           
+                            <ul class="dropdown-menu">
+                                <li><a href="/Services/Check">@Resource.Menu_Check</a></li>
+                                <li><a href="/Services/Auction">@Resource.Menu_Auction</a></li>
+                                <li><a href="/Services/Parts">@Resource.Menu_Parts</a></li>
+                            </ul>
+                        </li>
+                        @*<li>                            <a href="/AboutUs/" class="scroll-link" data-id="about" >@Resources.Resource.Menu_About</a></li>*@
+                        @*<li><a href="/Responses/" class="scroll-link" data-id="blog">@Resources.Resource.Menu_Responsive</a></li>*@
+                        <li><a href="/Contacts/" class="scroll-link" data-id="contact">@Resources.Resource.Menu_Contacts</a></li>
+                        <li><a href="/uk/" class="scroll-link" data-id="contact">UKR</a></li>
+                        <li><a href="/ru/" class="scroll-link" data-id="contact">RUS</a></li>
+                    </ul>
+                </div>
+                <!--/.navbar-collapse-->
+            </nav>
+            <!--/.navbar-->
+        </div>
+        <!--/.container-->
+    </div>
+    <!--/.header-->
+
+    <section class="cd-hero">
+        <ul class="cd-hero-slider slick">
+            <!--
+                <ul class="cd-hero-slider autoplay"> for slider auto play
+                <ul class="cd-hero-slider"> for disabled auto play
+            -->
+            @foreach (var item in Slider.GetAll().Where(f => f.PageId == Model.PageId && f.IdLanguage == BaseController.IdCurrentLang))
+            {
+                <li class="selected first-slide">
+                    <img style="width:100%!important" class="img-responsive" src="~/Content/img/@item.Image" />
+                    @Html.Raw(item.Description) <!-- .cd-full-width -->
+                </li>
+            }
+
+
+            @*<li class="first-slide">
+                    <img src="~/Content/img/slide_02.jpg" />
+                    <div class="cd-full-width">
+                        <div class="tm-slide-content-div slide-caption">
+                            <span>We Are Perfect Staffs</span>
+                            <h2>Our Team Members</h2>
+                            <p>Donec dolor ipsum, laoreet nec metus non, tempus elementum massa. Donec non elit rhoncus, vestibulum enim sed, rutrum arcu.</p>
+                            <div class="primary-button">
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+                    </div> <!-- .cd-full-width -->
+                </li>
+
+                <li class="first-slide">
+                    <img src="~/Content/img/slide_03.jpg" />
+                    <div class="cd-full-width">
+                        <div class="tm-slide-content-div slide-caption">
+                            <span>Design is a hobby</span>
+                            <h2>Responsive Layout</h2>
+                            <p>Integer ut dolor eget magna congue gravida ut at arcu. Vivamus maximus neque quis luctus tempus. Vestibulum consequat.</p>
+                            <div class="primary-button">
+                                <a href="#">View Details</a>
+                            </div>
+                        </div>
+                    </div> <!-- .cd-full-width -->
+                </li>*@
+        </ul> <!-- .cd-hero-slider -->
+
+        <div class="cd-slider-nav">
+            <nav>
+                <span class="cd-marker item-1"></span>
+
+                <ul>
+                    <li class="selected"><a href="#0"></a></li>
+                    <li><a href="#0"></a></li>
+                    <li><a href="#0"></a></li>
+                </ul>
+            </nav>
+        </div> <!-- .cd-slider-nav -->
+    </section> <!-- .cd-hero -->
+
+
+    @RenderBody()
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="copyright-text">
+                        <p>
+                            @Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "CopyRight")).Values | <a href="http://originalsoftlab.com" target="_blank">by originalSoftLab</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-2 ">
+                    @**@
+                    <p>
+                    <img height="20" src="~/Content/img/whatsapp.svg" />  <img height="20" src="~/Content/img/viber.svg" /> <i class="fa fa-icon-viber"></i> @Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "PhoneNumber")).Values 
+                    </p>
+                </div>
+                @*<div class="col-md-6">
+                        <div class="social-icons">
+                            <ul>
+                                <li>
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-rss"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="sendMess" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Заявка</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/Contacs/Send/">
+                        <input hidden name="Thema" value="Заявка" />
+                        <div class="form-group">
+                            <label for="usrname"><span class="glyphicon glyphicon-user"></span> @Resources.Resource.Name</label>
+                            <input type="text" class="form-control" name="Name" placeholder="Імя">
+                        </div>
+                        <div class="form-group">
+                            <label for="usrname"><span class="glyphicon glyphicon-envelope"></span> Email</label>
+                            <input type="text" class="form-control" name="Email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="usrname"><span class="glyphicon glyphicon-comment"></span> Заявка</label>
+                            <textarea class="form-control" name="Message">
+Заявка  
+</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-send"></span> @Resources.Resource.Send</button>
+                    </form>
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                    </div>*@
+            </div>
+
+        </div>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+    <script src="/Content/js/vendor/bootstrap.min.js"></script>
+    <script src="/Content/js/plugins.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Content/slick-1.8.0/slick/slick.min.js"></script>
+    <script src="/Content/js/main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //// navigation click actions
+            //$('.scroll-link').on('click', function (event) {
+            //    event.preventDefault();
+            //    var sectionID = $(this).attr("data-id");
+            //    scrollToID('#' + sectionID, 750);
+            //});
+            // scroll to top action
+            //$('.scroll-top').on('click', function (event) {
+            //    event.preventDefault();
+            //    $('html, body').animate({ scrollTop: 0 }, 'slow');
+            //});
+            // mobile nav toggle
+            $('#nav-toggle').on('click', function (event) {
+                event.preventDefault();
+                $('#main-nav').toggleClass("open");
+            });
+
+
+            //slider
+            $(".slick").slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                speed: 300
+            });
+        });
+        // scroll function
+        function scrollToID(id, speed) {
+            var offSet = 50;
+            var targetOffset = $(id).offset().top - offSet;
+            var mainNav = $('#main-nav');
+            $('html,body').animate({ scrollTop: targetOffset }, speed);
+            if (mainNav.hasClass("open")) {
+                mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+                mainNav.removeClass("open");
+            }
+        }
+        if (typeof console === "undefined") {
+            console = {
+                log: function () { }
+            };
+        }
+    </script>
+</body>
+</html>

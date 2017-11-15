@@ -1,0 +1,130 @@
+﻿@model List<DataContext.EDM.Slider>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+    int PageId = Convert.ToInt32(TempData["PageId"]);
+    var Languages = Enum.GetNames(typeof(Languages));
+
+}
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bubble font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp sbold">Рекомендації</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="note note-danger">
+            <h4 class="block">Рекомендований код розмітки в опис</h4>
+            <p>
+                <textarea rows="5" class="form-control">
+
+                   @Html.Raw("<div class=\"cd-full-width\">"+
+                "<div class=\"tm-slide-content-div slide-caption\">"+
+                "<span>We Are Perfect Staffs</span>"+
+                "<h2>Our Team Members</h2>"+
+            "<p>Donec dolor ipsum, laoreet nec metus non, tempus elementum massa.</p>"+
+           " <div class=\"primary-button\" data-toggle=\"modal\" data-target=\"#sendMess\">"+
+                "<a href=\"#\">Read More</a>" +
+            "</div></div></div>")
+
+
+
+    </textarea>
+    </p>
+</div>
+        <div class="note note-warning">
+            <h4 class="block">Зображення</h4>
+            <h3><span class="label label-warning"> warning </span>
+                Розмір зображення повивнен бути
+                1600 × 750 pixels
+            </h3>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "Slider", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Слайдер</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <ul class="nav nav-tabs">
+            @for (int i = 0; i < Languages.Length; i++)
+                {
+                <li @if (i == 0) { <text> class="active" </text>       }>
+                    <a aria-expanded="true" href="#tab_@i" data-toggle="tab">@Languages[i].ToUpper()</a>
+                </li>
+            }
+        </ul>
+
+        <div class="tab-content">
+            @for (int i = 0; i < Languages.Length; i++)
+            {
+                int IdLanguage = (int)Enum.Parse(typeof(Languages), Languages[i]);
+
+                <div class="tab-pane fade @if (i == 0) { <text>active in</text>}" id="tab_@i">
+
+                    <input type="hidden" name="[@i].IdLanguage" value="@IdLanguage" />
+                    <input type="hidden" name="[@i].IsActive" value="true" />
+                   
+
+                    <div class="form-group">
+                        <label class="col-md-2">Заголовок</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="form-group">
+                        <label class="col-md-2">Розмітка слайдера</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].Description, new { htmlAttributes = new { @class = "form-control wysiwyg" } })
+                            @Html.ValidationMessageFor(model => model[i].Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Сторінка</label>
+            <div class="col-md-10">
+                <select class="form-control" required name="PageId">
+                    @foreach (var item in SpecialPage.GetAll().Where(f => f.IdLanguage == 1).ToList())
+                    {
+                        <option value="@item.OriginalId">@item.Title</option>
+                    }
+                    @*<option value="1">Головна</option>
+                    <option value="2">Про Нас</option>
+                    <option value="3">Контакти</option>
+                    <option value="4">Відгуки</option>
+                    <option value="5">Послуги</option>*@
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Зображення</label>
+            <div class="col-md-10">
+                <input type="file" class="form-control" name="file" required accept="image/*" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Зберегти" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

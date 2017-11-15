@@ -1,0 +1,104 @@
+﻿@model List<DataContext.EDM.FileBank>
+@using DataContext.Enums
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+    var Types = Enum.GetValues(typeof(FileTypes));
+}
+
+<h3 class="page-title">
+    @ViewBag.Title
+</h3>
+<hr />
+@using (Html.BeginForm(Html.BeginForm("Add", "FileBank", FormMethod.Post, new { enctype = "multipart/form-data" })))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@HttpContext.Current.Request.Url.ToString()" />
+    <div class="form-horizontal">
+        <div class="">
+            <div class="form-group">
+                <label class="control-label col-md-2">Виберіть файл для завантаження</label>
+                <div class="col-md-7">
+                    <input type="file" name="File" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Нотатка</label>
+                <div class="col-md-7">
+                    <textarea  name="Note" class="form-control" required ></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Виберіть тип завантажуваного файлу</label>
+                <div class="col-md-7">
+                    <select name="IdType" class="form-control" required>
+                        @foreach (var item in Types)
+                        {
+                            <option value="@((int)item)">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Додати" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<hr />
+
+<div class="module">
+    <div class="table-responsive">
+        <table id="myTable" class="tablesorter table table-bordered table-hover table-striped">
+            <tr>
+                <th>
+                    Нотатка
+                </th>
+                <th>
+                    Файл
+                </th>
+                <th>
+                    Лінк
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @if (item.IdType == 1)
+                        {
+                            <img src="~/Content/img/@item.Path" width="300" />
+                        }
+                        else
+                        {
+                            <i class="fa fa-file"><a href="~/Content/img/@item.Path" target="_blank"> @item.Path</a></i>
+                        }
+                    </td>
+                    <td>
+                        @if (item.IdType == 1)
+                        {
+                            <a href="~/Content/img/@item.Path" target="_blank">@item.Path</a>
+                        }
+                        else { }
+                    </td>
+                    <td>
+                        <i class="fa fa-pencil"></i>
+                        @Html.ActionLink("Редагувати", "Edit", new { id = item.Id, returnUrl = HttpContext.Current.Request.Url.ToString() }) |
+                        <i class="fa fa-trash"></i>
+                        @Html.ActionLink("Видалити", "Delete", new { id = item.Id, returnUrl = HttpContext.Current.Request.Url.ToString() }, new { onclick = "return confirm('Ви впевнені?')" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

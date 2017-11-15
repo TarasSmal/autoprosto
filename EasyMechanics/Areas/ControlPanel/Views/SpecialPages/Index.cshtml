@@ -1,0 +1,47 @@
+﻿@model List<SpecialPage>
+
+@{ 
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+
+<div class="table-responsive">
+    <table id="myTable" class="tablesorter table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Заголовок
+                </th>
+                <th>
+                    Описание
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.Description)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = item.OriginalId })">Редагувати</a>|
+                        <a href="@Url.Action("Index", "Slider", new { id = item.OriginalId })">Слайдер</a> 
+                        @*@if (item.Id > 6)
+                        {
+                            <a href="@Url.Action("Delete", new { id = item.Id })" onclick="return confirm('Вы уверены?')"><i class="fa fa-trash"></i> Удалить</a>
+                        }*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

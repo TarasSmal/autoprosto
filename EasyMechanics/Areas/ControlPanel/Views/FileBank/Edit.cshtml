@@ -1,0 +1,68 @@
+﻿@model DataContext.EDM.FileBank
+@using DataContext.Enums;
+@{
+    ViewBag.Title = "Редагування - " + Model.Path;
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+    var Types = Enum.GetValues(typeof(FileTypes));
+
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+@using (Html.BeginForm(Html.BeginForm("Edit", "FileBank", FormMethod.Post, new { enctype = "multipart/form-data" })))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <input type="hidden" value="@ViewBag.returnUrl" name="returnUrl" />
+        <input type="hidden" value="@Model.Path" name="Path" />
+        
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <p><img src="~/Content/bank/@Model.Path" width="500" style="margin-bottom:20px;" /></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="form-group">
+                <label class="control-label col-md-2">Щоб завантажити новий файл, просто виберіть файл</label>
+                <div class="col-md-10">
+                    <input type="file" name="File" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Нотатка</label>
+                <div class="col-md-10">
+                    <textarea name="Note" class="form-control" required >@Model.Note</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Виберіть тип завантажуваного файлу</label>
+                <div class="col-md-10">
+                    <select name="IdType" class="form-control">
+                        @foreach (var item in Types)
+                        {
+                            if(((int)item) == Model.IdType)
+                            {
+                            <option selected value="@((int)item)">@item</option>
+                            }
+                            else
+                            {
+                                <option value="@((int)item)">@item</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Зберегти" class="btn btn-primary" />
+                </div>
+            </div>                        
+        </div>
+    </div>
+}

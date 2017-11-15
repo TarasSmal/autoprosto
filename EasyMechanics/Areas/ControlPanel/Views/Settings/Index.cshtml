@@ -1,0 +1,33 @@
+﻿@model List<Setting>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            using (Html.BeginForm("Edit","Settings"))
+            {
+                <tr>
+                    <td>@item.Description</td>
+                    <td>
+                        <div class="form-group">
+                            <input hidden name="Id" value="@item.Id" />
+                            <textarea class="form-control" name="Values">@Html.Raw(item.Values)</textarea>
+                        </div>
+                    </td>
+                    <td><button class="btn btn-primary">Зберегти</button></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,99 @@
+﻿@model List<SpecialPage>
+@{
+    ViewBag.Title = "Редактирование - "; //+ Model[1].Title;
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+    var Languages = Enum.GetNames(typeof(Languages));
+}
+
+<h3 class="page-title">
+    @ViewBag.Title
+</h3>
+
+@using (Html.BeginForm("Edit", "SpecialPages", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @if (ViewBag.ShowErrors != null)
+        {
+            <div class="alert alert-warning alert-dismissible padding10">
+                <i class="fa fa-warning"></i>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger white" })
+            </div>
+        }
+
+        <ul class="nav nav-tabs">
+            @for (int i = 0; i < Languages.Length; i++)
+                {
+                <li @if (i == 0) { <text> class="active" </text>    }>
+                    <a aria-expanded="true" href="#tab_@i" data-toggle="tab">@Languages[i].ToUpper()</a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content">
+            @for (int i = 0; i < Languages.Length; i++)
+            {
+                int IdLanguage = (int)Enum.Parse(typeof(Languages), Languages[i]);
+                var item = Model[i];
+
+                <div class="tab-pane fade @if (i == 0) { <text>active in</text>}" id="tab_@i">
+                    <input type="hidden" name="IdLanguage" value="@IdLanguage" />
+                    <div class="form-group">
+                        <label class="col-md-2">Заголовок</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+                    @Html.HiddenFor(m => Model[i].Id)
+                    @Html.HiddenFor(m => Model[i].IdLanguage)
+
+                    <div class="form-group">
+                        <label class="col-md-2">Заголовок seo</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].SEOTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].SEOTitle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2">Мета тег (seo)</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model[i].SEODescription, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model[i].SEODescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2">Контент</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model[i].Content, new { @class = "wysiwyg" })
+                            @Html.ValidationMessageFor(model => model[i].Content, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2">Опис</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model[i].Description, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model[i].Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2">Ключові слова seo</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].KeyWord, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].KeyWord, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div>
+            <input type="submit" value="Зберегти" class="btn btn-primary" />
+        </div>
+    </div>
+}

@@ -1,0 +1,71 @@
+﻿@model SpecialPage
+@{
+    ViewBag.Title = "Создание";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h3 class="page-title">
+    @ViewBag.Title
+</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="">
+            @if (ViewBag.ShowErrors != null)
+            {
+                <div class="alert alert-warning alert-dismissible padding10">
+                    <i class="fa fa-warning"></i>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger white" })
+                </div>
+            }
+
+            <div class="form-group">
+                <label class="col-md-2">Заголовок</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Описание</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Заголовок seo</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SeoTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SeoTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Мета тег (seo)</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.SeoDescription, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SeoDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Контент</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Content, new { @class = "wysiwyg" })
+                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div>
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

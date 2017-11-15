@@ -1,0 +1,37 @@
+﻿    @model List<DataContext.EDM.Slider>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+<h2>Слайдери</h2>
+<div class="col-md-3 col-xs-6 text-left">
+    @Html.ActionLink("Додати", "Create", new object { }, new { @class = "btn btn-primary" })
+</div>
+<table class="tablesorter table table-bordered table-hover table-striped">
+    <tr>
+        <th>
+           Назва
+        </th>
+        <th>
+            Зображення
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Name
+        </td>
+        <td>
+           <img style="width:350px;" src="~/Content/img/@item.Image" />
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.Id }, new { onclick = "return confirm('Ви впевнені?')" }) 
+        </td>
+    </tr>
+}
+
+</table>

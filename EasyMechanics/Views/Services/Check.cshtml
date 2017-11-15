@@ -1,0 +1,21 @@
+﻿@model SpecialPage
+
+@{
+    ViewBag.Title = Model.SEOTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #what-we-do p, #what-we-do {
+        color: #111;
+    }
+</style>
+  
+
+<div id="what-we-do">
+    <div class="container">
+        <div class="row">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+</div>

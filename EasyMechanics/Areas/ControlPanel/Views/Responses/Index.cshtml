@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DataContext.EDM.Respons>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="float-left breadcrumb clearfix">
+<div class="col-md-3 col-xs-6 text-left">
+    @Html.ActionLink("Додати", "Create", new object { }, new {@class = "btn btn-primary" })
+</div>
+</div>
+<table class="tablesorter table table-bordered table-hover table-striped">
+    <tr>
+        <th>
+            Імя
+        </th>
+        <th>
+            Контент
+        </th>
+        <th>
+            Дата
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.Id }, new { onclick = "return confirm('Ви впевнені')" })
+        </td>
+    </tr>
+}
+
+</table>

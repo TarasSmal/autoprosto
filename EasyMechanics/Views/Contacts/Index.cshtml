@@ -1,0 +1,54 @@
+﻿@model DataContext.EDM.SpecialPage
+
+@{
+    ViewBag.Title = Model.SEOTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="contact" class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="color:white">
+               
+               @Html.Raw(Model.Content)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+               
+                <div class="map">
+                    @Html.Raw(Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "Map")).Values)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <p class="col-md-8" style="color:#fff;font-size:14px;">
+                        <img height="20" src="~/Content/img/whatsapp.svg" />  <img height="20" src="~/Content/img/viber.svg" /> <i class="fa fa-icon-viber"></i>@Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "PhoneNumber")).Values 
+                    </p>
+                    <form id="contact" action="/Contact/Send/" method="post">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <input name="Name" type="text" class="form-control" id="name" placeholder="@Resources.Resource.Name..." required="">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <input name="Email" type="email" class="form-control" id="email" placeholder="Email..." required="">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-12">
+                            <fieldset>
+                                <textarea name="Message" rows="6" class="form-control" id="message" placeholder="@Resources.Resource.Message..." required=""></textarea>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-12">
+                            <fieldset>
+                                <button type="submit" id="form-submit" class="btn">@Resources.Resource.Send</button>
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

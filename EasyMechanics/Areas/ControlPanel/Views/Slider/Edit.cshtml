@@ -1,0 +1,120 @@
+﻿@model List<DataContext.EDM.Slider>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+    var Languages = Enum.GetNames(typeof(Languages));
+}
+
+<h2>Редагування</h2>
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bubble font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp sbold">Рекомендації</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="note note-danger">
+            <h4 class="block">Рекомендований код розмітки в опис</h4>
+            <p>
+                <textarea rows="5" class="form-control">
+
+                   @Html.Raw("<div class=\"cd-full-width\">"+
+                "<div class=\"tm-slide-content-div slide-caption\">"+
+                "<span>We Are Perfect Staffs</span>"+
+                "<h2>Our Team Members</h2>"+
+            "<p>Donec dolor ipsum, laoreet nec metus non, tempus elementum massa.</p>"+
+           " <div class=\"primary-button\" data-toggle=\"modal\" data-target=\"#sendMess\">"+
+                "<a href=\"#\">Read More</a>" +
+            "</div></div></div>")
+
+
+
+    </textarea>
+            </p>
+        </div>
+        <div class="note note-warning">
+            <h4 class="block">Зображення</h4>
+            <h3>
+                <span class="label label-warning"> warning </span>
+                Розмір зображення повивнен бути
+                1600 × 750 pixels
+            </h3>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Slider", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="form-horizontal">
+        @if (ViewBag.ShowErrors != null)
+        {
+            <div class="alert alert-warning alert-dismissible padding10">
+                <i class="fa fa-warning"></i>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger white" })
+            </div>
+        }
+
+        <ul class="nav nav-tabs">
+            @for (int i = 0; i < Languages.Length; i++)
+                {
+                <li @if (i == 0) { <text> class="active" </text>     }>
+                    <a aria-expanded="true" href="#tab_@i" data-toggle="tab">@Languages[i].ToUpper()</a>
+                </li>
+            }
+        </ul>
+
+
+        <div class="tab-content">
+            @for (int i = 0; i < Languages.Length; i++)
+            {
+                int IdLanguage = (int)Enum.Parse(typeof(Languages), Languages[i]);
+                var item = Model[i];
+
+                <div class="tab-pane fade @if (i == 0) { <text>active in</text>}" id="tab_@i">
+                    <div class="form-group">
+                        <label class="col-md-2">Заголовок</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model[i].Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model[i].Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(m => Model[i].Id)
+                    @Html.HiddenFor(m => Model[i].IdLanguage)
+
+                    <input type="hidden" name="IdLanguage" value="@IdLanguage" />
+                  
+
+                    <div class="form-group">
+                        <label class="col-md-2">Розмітка Слайдера</label>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model[i].Description, new { @class = "wysiwyg" })
+                            @Html.ValidationMessageFor(model => model[i].Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>   
+
+        <div class="form-group">
+            <label class="col-md-2">Зображення</label>
+            <div class="col-md-10">
+                <input type="file" class="form-control" name="file" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Зберегти" class="btn btn-default btn-primary" />
+            </div>
+        </div>
+    </div>
+}

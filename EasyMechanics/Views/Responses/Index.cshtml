@@ -1,0 +1,39 @@
+﻿@model   ResponsesViewModel
+
+@{
+    ViewBag.Title = Model.SpecialPages.SEOTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="about" class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Raw(Model.SpecialPages.Content)
+            </div>
+
+            @foreach (var item in Model.Responses)
+            {
+            <div class="col-md-4 col-sm-6 col-xs-12" style="margin-bottom:10px;">
+                <div class="service-item first-service">  
+                    <h4>@item.UserName</h4>
+                    <p>@item.Content</p>
+                </div>
+            </div>
+            }
+
+            @*<div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="service-item second-service">
+                    <h4>Creative Ideas</h4>
+                    <p>Biodiesel schltz suculents phone cliche ramps snackwave coloring book tumeric poke, typewriter.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="service-item third-service">
+                    <h4>Good Profit</h4>
+                    <p>Biodiesel schltz suculents phone cliche ramps snackwave coloring book tumeric poke, typewriter.</p>
+                </div>
+            </div>*@
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DataContext.EDM.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/ControlPanel/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="float-left breadcrumb clearfix">
+    <div class="col-md-3 col-xs-6 text-left">
+        @Html.ActionLink("Create", "CreateUser", new object { }, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.Id }) |
+        </td>
+    </tr>
+}
+
+</table>
