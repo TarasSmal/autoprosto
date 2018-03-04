@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace EasyMachanics.Controllers
 {
-    [Defend]
     public class BaseController : Controller
 	{
 		public static string CurrentLang { get; protected set; }

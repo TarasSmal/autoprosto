@@ -8,21 +8,19 @@
 <div id="contact" class="page-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-12" style="color:white">
-               
+            <div class="col-md-12">
                @Html.Raw(Model.Content)
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-               
                 <div class="map">
                     @Html.Raw(Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "Map")).Values)
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <p class="col-md-8" style="color:#fff;font-size:14px;">
+                    <p class="col-md-8" style="font-size:14px;">
                         <img height="20" src="~/Content/img/whatsapp.svg" />  <img height="20" src="~/Content/img/viber.svg" /> <i class="fa fa-icon-viber"></i>@Setting.GetOne((int)Enum.Parse(typeof(DataContext.Enums.Settings), "PhoneNumber")).Values 
                     </p>
                     <form id="contact" action="/Contact/Send/" method="post">
